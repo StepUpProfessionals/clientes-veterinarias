@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romeo — su historia</title>
+  <meta name="description" content="El álbum-recordatorio de Romeo" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8C3B4A" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#FBF3E7;
+      --ink:#2B2130;
+      --card:#F4E6CE;
+      --marigold:#E8A33D;
+      --berry:#8C3B4A;
+      --sage:#93A487;
+      --shadow: 0 10px 26px rgba(43,33,48,0.14);
+    }
+
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:'Work Sans', sans-serif;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    h1,h2,h3{font-family:'Fraunces', serif; margin:0;}
+
+    /* --- Sunbeam signature --- */
+    #sunbeam{
+      position:fixed;
+      top:-30vh; left:50%;
+      width:140vw; height:70vh;
+      transform:translateX(-50%);
+      background:radial-gradient(ellipse at center, rgba(232,163,61,0.35) 0%, rgba(232,163,61,0) 70%);
+      pointer-events:none;
+      z-index:0;
+      transition:top 0.15s linear;
+    }
+
+    section{position:relative; z-index:1; padding:5.5rem 1.4rem; max-width:640px; margin:0 auto;}
+
+    a.skip{position:absolute; left:-999px;}
+    a.skip:focus{left:1rem; top:1rem; background:var(--berry); color:white; padding:.5rem 1rem; border-radius:6px; z-index:10;}
+
+    /* --- Sistema de Fotos --- */
+    .photo{
+      position:relative;
+      background:var(--card);
+      border:1.5px dashed rgba(43,33,48,0.35);
+      border-radius:4px;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .photo img{width:100%; height:100%; object-fit:cover; display:block;}
+    .photo .placeholder{
+      display:flex; flex-direction:column; align-items:center; gap:.4rem;
+      padding:1rem; text-align:center; color:rgba(43,33,48,0.55);
+    }
+    .photo .placeholder svg{width:34px; height:34px; opacity:.55;}
+    .photo .placeholder code{
+      font-family:'Space Mono', monospace; font-size:.68rem;
+      background:rgba(43,33,48,0.06); padding:.15rem .4rem; border-radius:3px;
+    }
+
+    /* --- Magia de las Polaroid (Restaurada) --- */
+    .polaroid{
+      position: relative; /* ¡Esto ancla la cinta para que no se vuele! */
+      background:#fff; padding:.6rem .6rem 2.2rem; border-radius:2px;
+      box-shadow:var(--shadow);
+    }
+    .polaroid .photo{border-radius:1px;} /* Restaura la proporción de las fotos */
+    .polaroid figcaption{
+      font-family:'Space Mono', monospace; font-size:.72rem;
+      text-align:center; margin-top:.6rem; color:var(--berry);
+    }
+    .tape{
+      position:absolute; top:-.6rem; left:50%; transform:translateX(-50%) rotate(-2deg);
+      width:60px; height:22px; background:rgba(140,59,74,0.55); opacity:.85; z-index: 2;
+    }
+
+    /* --- Hero (Portada) --- */
+    #hero{
+      min-height:92vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; text-align:center;
+      padding-top:3rem; padding-bottom:3rem;
+    }
+    .hero-photo{
+      width:min(72vw, 300px); aspect-ratio:1/1;
+      border-radius:50% 46% 50% 48% / 48% 50% 46% 52%;
+      margin-bottom:2rem;
+    }
+    .eyebrow{
+      font-family:'Space Mono', monospace; font-size:.75rem; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--berry); margin-bottom:.8rem; margin-top:0.5rem;
+    }
+    #hero h1{font-size:clamp(2.6rem, 9vw, 4.4rem); font-style:italic; font-weight:600; line-height:1;}
+    #hero p{font-size:1.05rem; max-width:32ch; margin:1.1rem auto 0; opacity:.85;}
+
+    /* --- Galería (El Molde de Cuadrícula Restaurado) --- */
+    h2{font-size:clamp(1.9rem, 5vw, 2.5rem); font-style:italic; margin-bottom:.4rem;}
+    .section-lead{opacity:.75; margin-bottom:2.2rem; max-width:46ch;}
+    
+    .tab-panel.active{display:grid; grid-template-columns:1fr; gap:3rem;}
+    .tab-panel .polaroid:nth-child(odd){transform:rotate(-2deg);}
+    .tab-panel .polaroid:nth-child(even){transform:rotate(2deg); margin-top:1.4rem;}
+    .tab-panel .polaroid:hover{transform:rotate(0) scale(1.03); transition:transform .25s ease;}
+
+    /* --- Cierre --- */
+    #cierre{text-align:center; padding-bottom:6rem;}
+    .cta{
+      display:inline-block; margin-top:1.8rem; background:var(--berry); color:#fff;
+      text-decoration:none; font-family:'Work Sans', sans-serif; font-weight:600;
+      padding:.85rem 1.8rem; border-radius:999px; box-shadow:var(--shadow);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto;}
+      #sunbeam{transition:none;}
+    }
+
+    /* --- Lightbox --- */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(43, 33, 48, 0.95);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.active {
+      opacity: 1; pointer-events: all;
+    }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .lightbox.active img {
+      transform: scale(1);
+    }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 30px;
+      color: white; font-size: 2.5rem; font-family: sans-serif;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<a href="#hero" class="skip">Saltar al contenido</a>
+<div id="sunbeam" aria-hidden="true"></div>
+
+<!-- 1. PORTADA -->
+<section id="hero">
+  <!-- Aquí le dimos el poder de clic a la foto -->
+  <div id="foto-portada" class="hero-photo photo" style="cursor: pointer;" data-src="images/portada.jpg"></div>
+  
+  <h1>Romeo</h1>
+  <div class="eyebrow">Un motivo para sonreir</div>
+
+  <p>Esta es su historia: sus siestas, sus travesuras, y todo lo que lo hace irremplazable.</p>
+  
+  <!-- Botón para instalar la PWA (centrado y elegante) -->
+  <button id="btn-instalar" class="cta" style="display: none; background: var(--marigold); color: var(--ink); border: none; cursor: pointer; margin: 1.5rem auto 1.5rem auto;">
+    Instalar este álbum
+  </button>
+</section>
+
+<!-- 2. MOMENTO ESPECIAL (Transición B2B) -->
+<section id="detalles" style="padding: 3rem 1.5rem; text-align: center; max-width: 600px; margin: 0 auto; background-color: transparent;">
+  <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; color: var(--ink, #4a4a4a);">
+    Hoy fue un día especial para Romeo.<br>
+    Su primera visita a <strong>Veterinaria Huellas</strong>.
+  </p>
+  
+  <!-- Las 3 "Píldoras" de información -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 2rem;">
+    <span style="background-color: #f5f0e6; border: 1px solid #eaddc4; color: #5a4a35; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+      📅 Día de adopción 29/12/25
+    </span>
+    <span style="background-color: #f5f0e6; border: 1px solid #eaddc4; color: #5a4a35; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+      🩺 Primera visita 14/08/26
+    </span>
+    <span style="background-color: #f5f0e6; border: 1px solid #eaddc4; color: #5a4a35; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+      ⚖️ Peso inicial 1 libra
+    </span>
+  </div>
+
+  <p style="font-size: 1rem; font-style: italic; color: #666; margin-bottom: 1.5rem;">
+    Un pequeño momento que ahora forma parte de su historia.
+  </p>
+  
+  <!-- Indicador visual sutil para iniciar la galería -->
+  <div style="font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #999;">
+    Aquí comienzan sus recuerdos ↓
+  </div>
+</section>
+
+<!-- 3. GALERÍA: MICRO-ÁLBUM B2B -->
+<section id="galeria">
+  <h2>Sus primeros recuerdos</h2>
+  <p class="section-lead">Su visita de hoy y sus momentos favoritos en casa.</p>
+
+  <div class="tab-panel active" id="micro-album">
+    
+    <!-- Foto 1: La "Prueba de Vida" en la clínica -->
+    <figure class="polaroid">
+      <span class="tape"></span>
+      <div class="photo" data-src="images/visita-clinica.jpg"></div> 
+      <figcaption>valiente en su cita</figcaption>
+    </figure>
+    
+    <!-- Foto 2: Foto enviada por el dueño -->
+    <figure class="polaroid">
+      <span class="tape"></span>
+      <div class="photo" data-src="images/siestas-1.jpg"></div>
+      <figcaption>¡Panterita!</figcaption>
+    </figure>
+    
+    <!-- Foto 3: Foto enviada por el dueño -->
+    <figure class="polaroid">
+      <span class="tape"></span>
+      <div class="photo" data-src="images/travesuras-1.jpg"></div>
+      <figcaption>modo travieso</figcaption>
+    </figure>
+    
+    <!-- Foto 4: Foto enviada por el dueño -->
+    <figure class="polaroid">
+      <span class="tape"></span>
+      <div class="photo" data-src="images/familia-1.jpg"></div>
+      <figcaption>puro amor</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- 4. CIERRE: Fidelización y Sello de Autor -->
+<section id="cierre" style="text-align: center; padding-bottom: 3rem;">
+ 
+ <!-- La foto de cierre en formato Polaroid corregida (estilo en línea para evitar que se estire) -->
+  <figure class="polaroid" style="display: inline-block; margin: 0 auto 2rem auto;">
+    <span class="tape"></span>
+    <div class="photo" style="aspect-ratio: 4/3;" data-src="images/cierre.jpg"></div>
+    <figcaption>siempre a tu lado</figcaption>
+  </figure>
+
+  <!-- El branding de la veterinaria -->
+  <h2>Un recuerdo para toda la vida</h2>
+  <p class="section-lead" style="margin:0 auto; font-size: 1.1rem;">
+    Creado con amor por <strong>Veterinaria Huellas</strong>.
+  </p>
+  
+  <!-- Botón 1: Compartir -->
+  <button id="btn-compartir" class="cta" style="background: var(--marigold); color: var(--ink); border: none; cursor: pointer; margin: 2rem auto 2rem auto; display: block;">
+    Compartir este recuerdo
+  </button>
+
+  <!-- Tu firma B2B -->
+  <div style="margin-top: 4rem; font-size: 0.85rem; color: #888;">
+    <p style="margin: 0;">Tecnología de fidelización por</p>
+    <a href="https://wa.me/573005171856?text=Hola,%20tengo%20una%20veterinaria%20y%20me%20interesa%20ofrecer%20estos%20álbumes%20a%20mis%20clientes" target="_blank" style="color: #666; text-decoration: underline; font-weight: bold;">
+      Step Up Business Solutions
+    </a>
+  </div>
+</section>
+
+<script>
+  // Sunbeam drifts with scroll
+  const beam = document.getElementById('sunbeam');
+  window.addEventListener('scroll', () => {
+    const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    beam.style.top = (-30 + p * 90) + 'vh';
+  }, { passive:true });
+
+  // Photo placeholder system
+  const pawSVG = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="15" r="4.2"/><circle cx="5.5" cy="8.5" r="2.1"/><circle cx="9.5" cy="5" r="2.1"/><circle cx="14.5" cy="5" r="2.1"/><circle cx="18.5" cy="8.5" r="2.1"/></svg>';
+
+  document.querySelectorAll('.photo[data-src]').forEach(box => {
+    const src = box.getAttribute('data-src');
+    const img = new Image();
+    img.alt = "Romeo";
+    img.onload = () => box.appendChild(img);
+    img.onerror = () => {
+      box.innerHTML = `<div class="placeholder">${pawSVG}<code>${src}</code></div>`;
+    };
+    img.src = src;
+  });
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+  
+  // Activar el botón de Compartir Nativo
+  const btnCompartir = document.getElementById('btn-compartir');
+  if (btnCompartir) {
+    btnCompartir.addEventListener('click', async () => {
+      if (window.location.protocol === 'file:') {
+        alert('El botón de compartir funcionará mágicamente cuando subamos la página a internet. ¡Vamos súper bien!');
+        return;
+      }
+      
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'El álbum de Romeo',
+            text: '¡Mira este hermoso álbum interactivo!',
+            url: window.location.href
+          });
+        } catch (error) {
+          console.log('No se pudo compartir', error);
+        }
+      } else {
+        alert('Copia este enlace para compartir: ' + window.location.href);
+      }
+    });
+  }
+  
+  // --- Magia para Ampliar las Fotos ---
+  let cajaLightbox = document.getElementById('lightbox');
+  if (!cajaLightbox) {
+    cajaLightbox = document.createElement('div');
+    cajaLightbox.id = 'lightbox';
+    cajaLightbox.className = 'lightbox';
+    cajaLightbox.innerHTML = '<div class="lightbox-close">×</div><img id="lightbox-img" src="" alt="Romeo ampliado">';
+    document.body.appendChild(cajaLightbox);
+  }
+  const imagenLightbox = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.polaroid').forEach(polaroid => {
+    polaroid.style.cursor = 'pointer'; 
+    polaroid.addEventListener('click', () => {
+      const imagen = polaroid.querySelector('img');
+      if (imagen) {
+        imagenLightbox.src = imagen.src; 
+        cajaLightbox.classList.add('active'); 
+      }
+    });
+  });
+
+  cajaLightbox.addEventListener('click', () => {
+    cajaLightbox.classList.remove('active');
+  });
+  
+  // --- Magia para el botón de Instalar PWA ---
+  let eventoInstalacion;
+  const btnInstalar = document.getElementById('btn-instalar');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); 
+    eventoInstalacion = e; 
+    if (btnInstalar) {
+      btnInstalar.style.display = 'block';
+    }
+  });
+
+  if (btnInstalar) {
+    btnInstalar.addEventListener('click', async () => {
+      if (!eventoInstalacion) return;
+      eventoInstalacion.prompt(); 
+      const resultado = await eventoInstalacion.userChoice;
+      if (resultado.outcome === 'accepted') {
+        btnInstalar.style.display = 'none'; 
+      }
+      eventoInstalacion = null;
+    });
+  }
+  
+  // --- Magia para bajar al tocar la foto de portada ---
+  document.getElementById('foto-portada').addEventListener('click', () => {
+    window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
