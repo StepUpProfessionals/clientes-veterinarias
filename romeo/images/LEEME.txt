@@ -1,0 +1,32 @@
+FOTOS DE ROMEO — pon aquí los archivos con estos nombres exactos.
+La página los detecta solos; si un nombre no coincide, se ve un
+recuadro punteado con el nombre que falta (para que sepas qué subir).
+
+1  portada.jpg        → la mejor foto de su cara, cuadrada, luz buena
+2  llegada-1.jpg       → sección "cómo llegó a casa"
+3  llegada-2.jpg
+4  siestas-1.jpg       → capítulo "sus siestas" (4 fotos)
+5  siestas-2.jpg
+6  siestas-3.jpg
+7  siestas-4.jpg
+8  travesuras-1.jpg    → capítulo "travesuras" (4 fotos)
+9  travesuras-2.jpg
+10 travesuras-3.jpg
+11 travesuras-4.jpg
+12 familia-1.jpg       → capítulo "con la familia" (4 fotos)
+13 familia-2.jpg
+14 familia-3.jpg
+15 familia-4.jpg
+16 cierre.jpg          → foto final, formato horizontal (4:3)
+
+Total: 16 fotos (puedes ajustar cantidad por capítulo si tienes menos).
+
+Recomendación técnica: comprime cada foto a máx. ~300-500 KB antes de
+subirla (con TinyPNG o Squoosh) para que la PWA cargue rápido.
+Formato .jpg o .webp, cualquiera de los dos funciona.
+
+TEXTOS PENDIENTES (edita directo en index.html, buscando "completar"):
+- Raza, fecha de llegada, comida favorita, lugar favorito
+- El párrafo de "cómo llegó a casa"
+- Los 4 datos curiosos (miedo, manía, talento, sonido)
+- Fecha de "última actualización"
